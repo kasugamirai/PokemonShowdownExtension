@@ -7,7 +7,7 @@
     "tsify": "^5.0.4"
   },
   "scripts": {
-    "build": "browserify src/main.ts -p [ tsify --project tsconfig.json ] -o dist/main.js"
+    "build": "browserify src/main.ts -p [ tsify --project tsconfig.json ] -o dist/main.js",
+    "postbuild": "cp manifest.json dist/ && cp icon.png dist/ && cp src/popup.html dist/"
   }
-
 }
