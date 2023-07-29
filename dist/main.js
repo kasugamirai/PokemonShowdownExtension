@@ -5,13 +5,15 @@ const translate_1 = require("./translate");
 (function () {
     'use strict';
     console.log('Plugin started');
-    const roomElement = document.getElementById('room-');
-    if (roomElement) {
-        console.log('Found room element:', roomElement);
-        (0, translate_1.translateElement)(roomElement);
+    // Translate all existing elements in the page
+    const allElements = document.getElementsByTagName('*');
+    for (let i = 0; i < allElements.length; i++) {
+        const element = allElements[i]; // Type assertion
+        (0, translate_1.translateElement)(element);
     }
+    // Add event listener to translate all new elements added to the page
     document.addEventListener('DOMNodeInserted', function (e) {
-        const targetElement = e.target;
+        const targetElement = e.target; // Type assertion
         if (targetElement) {
             console.log('New node inserted:', targetElement);
             (0, translate_1.translateElement)(targetElement);
@@ -964,7 +966,17 @@ function t(originalStr, translations) {
     return originalStr.replace("Turn", "回合");
 }
 exports.t = t;
+let translationActive = true;
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.action == "toggleTranslation") {
+        translationActive = !translationActive;
+    }
+});
 function translateElement(element) {
+    if (!translationActive) {
+        // Do not translate if translation is not active
+        return;
+    }
     if (element.tagName === 'SCRIPT') {
         console.log('Skipping script element');
         return;

@@ -728,7 +728,23 @@ export function t(originalStr: string, translations: Record<string, string>): st
 }
 
 
+let translationActive = true;
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if (request.action == "toggleTranslation") {
+            translationActive = !translationActive;
+        }
+    }
+);
+
+
 export function translateElement(element: HTMLElement): void {
+    if (!translationActive) {
+        // Do not translate if translation is not active
+        return;
+    }
+
     if (element.tagName === 'SCRIPT') {
         console.log('Skipping script element');
         return;

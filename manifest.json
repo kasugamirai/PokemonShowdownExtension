@@ -1,17 +1,28 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Translation Extension",
   "version": "1.0",
   "description": "A Chrome Extension that translates web pages",
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["main.js"]
-    }
-  ],
-  "browser_action": {
+  "permissions": ["activeTab"],
+  "action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
-  "permissions": ["activeTab"]
+  "content_scripts": [
+    {
+      "matches": [
+        "http://china.psim.us/*",
+        "https://china.psim.us/*",
+        "http://47.94.147.145.psim.us/*",
+        "http://replay.pokemonshowdown.com/*",
+        "https://replay.pokemonshowdown.com/*",
+        "https://play.pokemonshowdown.com/*",
+        "http://smogtours.psim.us/*",
+        "https://smogtours.psim.us/*",
+        "http://localhost:8000/*",
+        "http://g410178v57.qicp.vip-80.psim.us/*"
+      ],
+      "js": ["main.js"]
+    }
+  ]
 }
